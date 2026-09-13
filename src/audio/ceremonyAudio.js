@@ -143,7 +143,12 @@ export function createCeremonyAudio() {
   let ctx = null;
   let unlocked = false;
   let fileAudio = null;
-  let themeAudio = null;
+  let themeStarting = false;
+  let themeAudio = new Audio(THEME_SRC);
+  themeAudio.loop = true;
+  themeAudio.preload = "auto";
+  themeAudio.volume = THEME_VOLUME;
+  themeAudio.load();
   let synthMaster = null;
   let synthNodes = [];
   let sparkleTimer = null;
@@ -289,50 +294,40 @@ export function createCeremonyAudio() {
       return unlocked;
     },
 
-    preloadTheme() {
-      if (themeAudio) return;
-      const track = new Audio(THEME_SRC);
-      track.loop = true;
-      track.preload = "auto";
-      track.playsInline = true;
-      track.setAttribute("playsinline", "true");
-      themeAudio = track;
-      track.load();
-    },
+    playTheme() {
+      if (!themeAudio) {
+        themeAudio = new Audio(THEME_SRC);
+        themeAudio.loop = true;
+        themeAudio.preload = "auto";
+      }
+      if (!themeAudio.paused && !themeAudio.ended) return Promise.resolve();
+      if (themeStarting) return Promise.resolve();
+      themeStarting = true;
+      themeAudio.volume = THEME_VOLUME;
+      themeAudio.currentTime = themeAudio.currentTime || 0;
 
-    async playTheme() {
       try {
         const audioCtx = ensureContext();
         if (audioCtx.state === "suspended") {
-          await audioCtx.resume();
+          audioCtx.resume();
         }
         unlocked = true;
       } catch {
-        unlocked = true;
+        /* keep going */
       }
 
-      if (!themeAudio) {
-        const track = new Audio(THEME_SRC);
-        track.loop = true;
-        track.preload = "auto";
-        track.playsInline = true;
-        track.setAttribute("playsinline", "true");
-        themeAudio = track;
+      const start = themeAudio.play();
+      if (!start) {
+        themeStarting = false;
+        return Promise.resolve();
       }
-
-      if (!themeAudio.paused && !themeAudio.ended && themeAudio.currentTime > 0) {
-        themeAudio.volume = THEME_VOLUME;
-        return;
-      }
-
-      themeAudio.loop = true;
-      themeAudio.volume = THEME_VOLUME;
-      try {
-        await themeAudio.play();
-        themeAudio.volume = THEME_VOLUME;
-      } catch {
-        /* wait for the next user tap */
-      }
+      return start
+        .then(() => {
+          themeStarting = false;
+        })
+        .catch(() => {
+          themeStarting = false;
+        });
     },
 
     playSfx(kind = "chime") {

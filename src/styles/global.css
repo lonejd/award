@@ -404,6 +404,10 @@ img {
   justify-items: center;
 }
 
+.enter-gate {
+  cursor: pointer;
+}
+
 .begin-button,
 .next-award {
   position: relative;

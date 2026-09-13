@@ -19,31 +19,44 @@ const BEATS = [
 
 export default function OpeningCeremony({ onBegin, audio }) {
   const reduced = usePrefersReducedMotion();
+  const [armed, setArmed] = useState(false);
   const [beat, setBeat] = useState(0);
 
-  useEffect(() => {
-    audio?.preloadTheme?.();
+  const enterTheatre = () => {
     audio?.playTheme();
-  }, [audio]);
+    setArmed(true);
+  };
 
   useEffect(() => {
+    if (!armed) return undefined;
     const current = BEATS[beat];
     if (!current || current.hold === 0) return undefined;
     const timer = window.setTimeout(() => {
       setBeat((value) => Math.min(value + 1, BEATS.length - 1));
     }, scaleTime(current.hold, reduced));
     return () => window.clearTimeout(timer);
-  }, [beat, reduced]);
+  }, [armed, beat, reduced]);
 
   const id = BEATS[beat].id;
   const show = (name) => BEATS.findIndex((item) => item.id === name) <= beat;
   const titleCard = ["title", "year", "dedication"].includes(id);
 
+  if (!armed) {
+    return (
+      <section
+        className="stage-screen opening enter-gate"
+        onPointerDown={enterTheatre}
+      >
+        <div className="opening-spot" />
+        <div className="opening-copy">
+          <p className="eyebrow">Press anywhere</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section
-      className="stage-screen opening"
-      onPointerDown={() => audio?.playTheme()}
-    >
+    <section className="stage-screen opening" onPointerDown={() => audio?.playTheme()}>
       <motion.div
         className="opening-spot"
         initial={{ opacity: 0, scale: 0.72 }}
