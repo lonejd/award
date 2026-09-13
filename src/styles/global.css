@@ -404,8 +404,11 @@ img {
   justify-items: center;
 }
 
-.enter-gate {
+button.enter-gate {
   cursor: pointer;
+  width: 100%;
+  appearance: none;
+  background: transparent;
 }
 
 .begin-button,

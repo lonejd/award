@@ -22,8 +22,19 @@ export default function OpeningCeremony({ onBegin, audio }) {
   const [armed, setArmed] = useState(false);
   const [beat, setBeat] = useState(0);
 
-  const enterTheatre = () => {
-    audio?.playTheme();
+  const enterTheatre = (event) => {
+    event.preventDefault();
+    const theme = document.getElementById("ceremony-theme");
+    if (theme) {
+      theme.muted = false;
+      theme.volume = 0.6;
+      theme.loop = true;
+      theme.play().catch(() => {
+        audio?.playTheme();
+      });
+    } else {
+      audio?.playTheme();
+    }
     setArmed(true);
   };
 
@@ -43,15 +54,16 @@ export default function OpeningCeremony({ onBegin, audio }) {
 
   if (!armed) {
     return (
-      <section
+      <button
+        type="button"
         className="stage-screen opening enter-gate"
-        onPointerDown={enterTheatre}
+        onClick={enterTheatre}
       >
         <div className="opening-spot" />
         <div className="opening-copy">
           <p className="eyebrow">Press anywhere</p>
         </div>
-      </section>
+      </button>
     );
   }
 

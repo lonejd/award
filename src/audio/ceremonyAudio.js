@@ -1,7 +1,5 @@
 const FADE_MS = 1400;
-export const THEME_SRC = encodeURI(
-  "/audio/awards/Oscars Theme - MUSIC BY GREG HULME - Greg Hulme.mp3"
-);
+export const THEME_SRC = "/audio/awards/theme.mp3";
 const THEME_VOLUME = 0.6;
 const NOTE = {
   C2: 65.41,
@@ -144,11 +142,7 @@ export function createCeremonyAudio() {
   let unlocked = false;
   let fileAudio = null;
   let themeStarting = false;
-  let themeAudio = new Audio(THEME_SRC);
-  themeAudio.loop = true;
-  themeAudio.preload = "auto";
-  themeAudio.volume = THEME_VOLUME;
-  themeAudio.load();
+  let themeAudio = null;
   let synthMaster = null;
   let synthNodes = [];
   let sparkleTimer = null;
@@ -295,39 +289,36 @@ export function createCeremonyAudio() {
     },
 
     playTheme() {
-      if (!themeAudio) {
-        themeAudio = new Audio(THEME_SRC);
-        themeAudio.loop = true;
-        themeAudio.preload = "auto";
-      }
-      if (!themeAudio.paused && !themeAudio.ended) return Promise.resolve();
+      const track =
+        document.getElementById("ceremony-theme") ||
+        themeAudio ||
+        new Audio(THEME_SRC);
+      themeAudio = track;
+      track.loop = true;
+      track.muted = false;
+      track.volume = THEME_VOLUME;
+      if (!track.paused && !track.ended) return Promise.resolve();
       if (themeStarting) return Promise.resolve();
       themeStarting = true;
-      themeAudio.volume = THEME_VOLUME;
-      themeAudio.currentTime = themeAudio.currentTime || 0;
+      unlocked = true;
 
       try {
         const audioCtx = ensureContext();
         if (audioCtx.state === "suspended") {
           audioCtx.resume();
         }
-        unlocked = true;
       } catch {
         /* keep going */
       }
 
-      const start = themeAudio.play();
+      const start = track.play();
       if (!start) {
         themeStarting = false;
         return Promise.resolve();
       }
-      return start
-        .then(() => {
-          themeStarting = false;
-        })
-        .catch(() => {
-          themeStarting = false;
-        });
+      return start.finally(() => {
+        themeStarting = false;
+      });
     },
 
     playSfx(kind = "chime") {
@@ -405,7 +396,9 @@ export function createCeremonyAudio() {
       }
       if (themeAudio) {
         themeAudio.pause();
-        themeAudio.src = "";
+        if (themeAudio.id !== "ceremony-theme") {
+          themeAudio.src = "";
+        }
         themeAudio = null;
       }
     },
