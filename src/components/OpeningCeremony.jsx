@@ -19,30 +19,58 @@ const BEATS = [
 
 export default function OpeningCeremony({ onBegin, audio }) {
   const reduced = usePrefersReducedMotion();
+  const [entered, setEntered] = useState(false);
   const [beat, setBeat] = useState(0);
 
   useEffect(() => {
-    audio?.playTheme();
+    audio?.preloadTheme?.();
   }, [audio]);
 
   useEffect(() => {
+    if (!entered) return undefined;
     const current = BEATS[beat];
     if (!current || current.hold === 0) return undefined;
     const timer = window.setTimeout(() => {
       setBeat((value) => Math.min(value + 1, BEATS.length - 1));
     }, scaleTime(current.hold, reduced));
     return () => window.clearTimeout(timer);
-  }, [beat, reduced]);
+  }, [entered, beat, reduced]);
+
+  const enterTheatre = async (event) => {
+    event.preventDefault();
+    if (entered) return;
+    await audio?.playTheme();
+    setEntered(true);
+  };
+
+  if (!entered) {
+    return (
+      <section
+        className="stage-screen opening opening-door"
+        onPointerDown={enterTheatre}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            enterTheatre(event);
+          }
+        }}
+      >
+        <div className="opening-spot" />
+        <div className="opening-copy">
+          <p className="eyebrow">The Awards</p>
+          <p className="spoken linger">Tap anywhere to enter</p>
+        </div>
+      </section>
+    );
+  }
 
   const id = BEATS[beat].id;
   const show = (name) => BEATS.findIndex((item) => item.id === name) <= beat;
   const titleCard = ["title", "year", "dedication"].includes(id);
 
   return (
-    <section
-      className="stage-screen opening"
-      onPointerDown={() => audio?.playTheme()}
-    >
+    <section className="stage-screen opening">
       <motion.div
         className="opening-spot"
         initial={{ opacity: 0, scale: 0.72 }}

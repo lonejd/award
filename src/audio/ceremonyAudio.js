@@ -289,9 +289,18 @@ export function createCeremonyAudio() {
       return unlocked;
     },
 
-    async playTheme() {
-      if (themeAudio && !themeAudio.paused) return;
+    preloadTheme() {
+      if (themeAudio) return;
+      const track = new Audio(THEME_SRC);
+      track.loop = true;
+      track.preload = "auto";
+      track.playsInline = true;
+      track.setAttribute("playsinline", "true");
+      themeAudio = track;
+      track.load();
+    },
 
+    async playTheme() {
       try {
         const audioCtx = ensureContext();
         if (audioCtx.state === "suspended") {
@@ -299,22 +308,30 @@ export function createCeremonyAudio() {
         }
         unlocked = true;
       } catch {
-        /* HTML audio can still start */
+        unlocked = true;
       }
 
-      if (themeAudio && !themeAudio.paused) return;
+      if (!themeAudio) {
+        const track = new Audio(THEME_SRC);
+        track.loop = true;
+        track.preload = "auto";
+        track.playsInline = true;
+        track.setAttribute("playsinline", "true");
+        themeAudio = track;
+      }
 
-      const track = new Audio(THEME_SRC);
-      track.loop = true;
-      track.preload = "auto";
-      track.volume = 0;
-      themeAudio = track;
+      if (!themeAudio.paused && !themeAudio.ended && themeAudio.currentTime > 0) {
+        themeAudio.volume = THEME_VOLUME;
+        return;
+      }
+
+      themeAudio.loop = true;
+      themeAudio.volume = THEME_VOLUME;
       try {
-        await track.play();
-        await fadeElement(track, 0, THEME_VOLUME, 1600);
-        if (themeAudio === track) track.volume = THEME_VOLUME;
+        await themeAudio.play();
+        themeAudio.volume = THEME_VOLUME;
       } catch {
-        if (themeAudio === track) themeAudio = null;
+        /* wait for the next user tap */
       }
     },
 

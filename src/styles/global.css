@@ -397,6 +397,10 @@ img {
     radial-gradient(circle, rgba(107, 26, 38, 0.18), transparent 70%);
 }
 
+.opening-door {
+  cursor: pointer;
+}
+
 .opening-cta {
   margin-top: 12px;
   width: 100%;
