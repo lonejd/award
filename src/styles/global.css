@@ -1,0 +1,1022 @@
+:root {
+  --void: #080406;
+  --stage: #10080b;
+  --velvet: #4a141c;
+  --velvet-deep: #2a0b11;
+  --burgundy: #6b1a26;
+  --gold: #c9a36a;
+  --gold-soft: #e8d5a3;
+  --gold-dim: rgba(201, 163, 106, 0.28);
+  --ivory: #f3ead8;
+  --ivory-dim: rgba(243, 234, 216, 0.62);
+  --cream: #e8dcc4;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --serif: "Cormorant Garamond", "Times New Roman", serif;
+  --sans: "Outfit", "Avenir Next", sans-serif;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+  margin: 0;
+  background: var(--void);
+  color: var(--ivory);
+  overflow: hidden;
+}
+
+html,
+body {
+  position: relative;
+}
+
+body {
+  font-family: var(--sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.ceremony-root,
+.ceremony-stage,
+.scene,
+.stage-screen {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.ceremony-stage,
+.scene {
+  z-index: 2;
+}
+
+.stage-screen {
+  display: grid;
+  place-items: center;
+  padding: calc(76px + var(--safe-top)) 16px calc(88px + var(--safe-bottom));
+  text-align: center;
+}
+
+.stage-dark {
+  background: transparent;
+}
+
+.stage-copy,
+.opening-copy,
+.birthday-close {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 920px);
+  max-width: 100%;
+  padding: 0 4px;
+}
+
+.eyebrow,
+.category-index,
+.year-mark,
+.winner-card-label,
+.credit-label,
+.award-counter,
+.next-award {
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 400;
+}
+
+.display-title,
+.category-title,
+.winner-name,
+.thanks-title,
+.end-title,
+.winner-card h2,
+.finale-overlay h2,
+.birthday-close h2,
+.credit-display {
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.12;
+  margin: 0;
+  overflow-wrap: break-word;
+}
+
+.display-title {
+  font-size: clamp(2.4rem, 12vw, 5.2rem);
+  color: var(--ivory);
+}
+
+.category-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.12em 0.28em;
+  width: 100%;
+  max-width: 16ch;
+  margin-inline: auto;
+  font-size: clamp(1.7rem, 8.4vw, 5.4rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.finale-title {
+  max-width: 12ch;
+}
+
+.reveal-screen {
+  place-items: center;
+}
+
+.winner-name {
+  width: min(92vw, 720px);
+  max-width: 100%;
+  justify-self: center;
+  font-size: clamp(1.45rem, 7vw, 4.6rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--gold-soft);
+  text-shadow: 0 0 48px rgba(201, 163, 106, 0.35);
+  padding: 0 12px;
+  text-wrap: balance;
+}
+
+.dedication,
+.spoken,
+.category-description,
+.final-letter,
+.winner-card-quote,
+.humor-lines,
+.photo-placeholder,
+.finale-overlay p,
+.birthday-close p {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 4.4vw, 1.85rem);
+  line-height: 1.45;
+  color: var(--ivory-dim);
+  max-width: min(28ch, 92vw);
+  margin: 0 auto;
+  padding-bottom: 0.2em;
+}
+
+.spoken {
+  max-width: 22ch;
+}
+
+.spoken.linger {
+  margin-bottom: 36px;
+}
+
+.year-mark {
+  margin: 22px 0 0;
+  color: var(--gold-soft);
+}
+
+.category-index {
+  margin: 14px 0 28px;
+  color: var(--ivory-dim);
+}
+
+.category-description {
+  max-width: 24ch;
+}
+
+.suspense-line {
+  font-family: var(--sans);
+  font-size: clamp(0.72rem, 3.2vw, 0.95rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  margin: 0;
+  padding: 0 16px;
+  text-wrap: balance;
+}
+
+.theatre {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.theatre-void {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(92, 24, 34, 0.28), transparent 42%),
+    radial-gradient(ellipse at 50% 100%, rgba(14, 8, 10, 0.9), var(--void) 58%),
+    var(--void);
+}
+
+.theatre-velvet {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: min(9vw, 220px);
+  background:
+    linear-gradient(90deg, rgba(8, 4, 6, 0.15), transparent),
+    repeating-linear-gradient(
+      90deg,
+      rgba(74, 20, 28, 0.95) 0 10px,
+      rgba(42, 11, 17, 0.95) 10px 14px
+    );
+  opacity: 0.48;
+  filter: saturate(0.9);
+}
+
+.theatre-velvet-left {
+  left: 0;
+  mask-image: linear-gradient(90deg, #000 40%, transparent);
+}
+
+.theatre-velvet-right {
+  right: 0;
+  transform: scaleX(-1);
+  mask-image: linear-gradient(90deg, #000 40%, transparent);
+}
+
+.theatre-proscenium {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 140px 40px rgba(8, 4, 6, 0.72);
+}
+
+.theatre-rays {
+  position: absolute;
+  inset: -10% 10% auto;
+  height: 70%;
+  background: conic-gradient(
+    from 210deg at 50% 0%,
+    transparent 0deg,
+    rgba(232, 213, 163, 0.05) 8deg,
+    transparent 16deg,
+    transparent 164deg,
+    rgba(232, 213, 163, 0.045) 172deg,
+    transparent 180deg
+  );
+  animation: ray-breathe 16s var(--ease) infinite;
+}
+
+.theatre-spot {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(18px);
+}
+
+.theatre-spot-main {
+  left: 50%;
+  top: 18%;
+  width: min(72vw, 720px);
+  height: min(72vw, 720px);
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(232, 213, 163, 0.16), transparent 68%);
+  animation: spot-drift 22s var(--ease) infinite;
+}
+
+.theatre-spot-left,
+.theatre-spot-right {
+  width: 28vw;
+  height: 42vh;
+  top: 8%;
+  background: radial-gradient(circle, rgba(201, 163, 106, 0.08), transparent 70%);
+}
+
+.theatre-spot-left {
+  left: 8%;
+}
+
+.theatre-spot-right {
+  right: 8%;
+}
+
+.theatre-floor {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 0;
+  height: 22vh;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(201, 163, 106, 0.05) 40%,
+    rgba(8, 4, 6, 0.85)
+  );
+  transform: perspective(400px) rotateX(48deg);
+  transform-origin: bottom;
+}
+
+.dust,
+.reveal-dust {
+  position: absolute;
+  inset: 0;
+}
+
+.dust-mote,
+.reveal-mote {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(232, 213, 163, 0.55);
+  animation: dust-float linear infinite;
+}
+
+.theatre-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+.theatre-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 42%, rgba(8, 4, 6, 0.72) 100%);
+}
+
+.opening-spot,
+.wander-spot,
+.gold-burst,
+.photo-spot {
+  position: absolute;
+  left: 50%;
+  top: 42%;
+  width: min(80vw, 680px);
+  height: min(80vw, 680px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232, 213, 163, 0.2), transparent 66%);
+  pointer-events: none;
+}
+
+.wander-spot.tight {
+  width: min(50vw, 380px);
+  height: min(50vw, 380px);
+}
+
+.gold-burst {
+  background:
+    radial-gradient(circle, rgba(232, 213, 163, 0.28), transparent 46%),
+    radial-gradient(circle, rgba(107, 26, 38, 0.18), transparent 70%);
+}
+
+.opening-cta {
+  margin-top: 12px;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+}
+
+.begin-button,
+.next-award {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 48px;
+  min-width: 44px;
+  padding: 0 22px;
+  border: 1px solid var(--gold-dim);
+  color: var(--gold-soft);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  background: rgba(16, 8, 11, 0.55);
+  box-shadow:
+    inset 0 1px 0 rgba(232, 213, 163, 0.16),
+    0 0 28px rgba(201, 163, 106, 0.12);
+  transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), border-color 0.5s var(--ease);
+}
+
+.begin-button {
+  width: min(100%, 280px);
+  min-width: 0;
+  border-radius: 999px;
+}
+
+.begin-button:hover,
+.next-award:hover {
+  border-color: rgba(201, 163, 106, 0.7);
+  box-shadow:
+    inset 0 1px 0 rgba(232, 213, 163, 0.22),
+    0 0 36px rgba(201, 163, 106, 0.22);
+}
+
+.begin-button:active,
+.next-award:active {
+  transform: scale(0.98);
+}
+
+.award-counter {
+  position: fixed;
+  top: calc(22px + var(--safe-top));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  color: var(--ivory-dim);
+}
+
+.award-counter-track {
+  width: min(42vw, 220px);
+  height: 1px;
+  background: rgba(243, 234, 216, 0.12);
+}
+
+.award-counter-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.8s var(--ease);
+}
+
+.next-award-wrap {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + var(--safe-bottom));
+  transform: translateX(-50%);
+  z-index: 5;
+  width: max-content;
+  max-width: calc(100vw - 32px);
+}
+
+.next-award {
+  border-radius: 999px;
+  padding: 0 20px;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.next-award em {
+  font-style: normal;
+  font-size: 1rem;
+}
+
+.winner-card {
+  width: min(calc(100vw - 32px), 460px);
+  max-height: calc(100dvh - 132px);
+  padding: 6px;
+  border: 1px solid rgba(201, 163, 106, 0.22);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(232, 213, 163, 0.12), transparent 46%),
+    linear-gradient(180deg, rgba(26, 12, 16, 0.92), rgba(10, 6, 8, 0.96));
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(232, 213, 163, 0.16);
+  overflow: hidden;
+}
+
+.winner-card-inner {
+  padding: 28px 18px 30px;
+  border: 1px solid rgba(201, 163, 106, 0.12);
+  text-align: center;
+  overflow: auto;
+}
+
+.winner-card h3,
+.winner-card h2 {
+  margin: 0;
+}
+
+.winner-card h3 {
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 5.4vw, 2rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  text-wrap: balance;
+}
+
+.winner-card h2 {
+  font-size: clamp(1.35rem, 6vw, 2.6rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--gold-soft);
+  margin-bottom: 14px;
+  text-wrap: balance;
+}
+
+.winner-card-label {
+  margin: 0 0 8px;
+}
+
+.winner-card-trophy {
+  display: grid;
+  place-items: center;
+  margin: 4px 0 18px;
+  color: var(--gold);
+}
+
+.winner-card-trophy svg {
+  width: 32px;
+  height: 32px;
+}
+
+.winner-card-quote {
+  font-size: clamp(0.98rem, 3.8vw, 1.15rem);
+}
+
+.photo-screen,
+.photo-embed {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: calc(72px + var(--safe-top)) 16px calc(96px + var(--safe-bottom));
+}
+
+.photo-atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.photo-atmosphere img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: blur(48px) saturate(1.05) brightness(0.4);
+  transform: scale(1.28);
+}
+
+.photo-atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 46%, rgba(8, 4, 6, 0.08) 10%, rgba(8, 4, 6, 0.42) 58%, #080406 100%);
+}
+
+.winner-photo {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 920px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.photo-plate {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  background: transparent;
+}
+
+.photo-plate img,
+.photo-placeholder {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(92vw, 880px);
+  max-height: min(56vh, 560px);
+  margin: 0 auto;
+  object-fit: contain;
+  object-position: center;
+  background: transparent;
+  border: 0;
+}
+
+.photo-bloom {
+  position: absolute;
+  filter: blur(28px) saturate(1.15) brightness(0.7);
+  opacity: 0.55;
+  transform: scale(1.08);
+  pointer-events: none;
+}
+
+.photo-still {
+  position: relative;
+  z-index: 1;
+  -webkit-mask-image: radial-gradient(
+    ellipse 86% 82% at 50% 50%,
+    #000 38%,
+    rgba(0, 0, 0, 0.65) 62%,
+    transparent 84%
+  );
+  mask-image: radial-gradient(
+    ellipse 86% 82% at 50% 50%,
+    #000 38%,
+    rgba(0, 0, 0, 0.65) 62%,
+    transparent 84%
+  );
+}
+
+.photo-placeholder {
+  display: grid;
+  place-content: center;
+  min-height: 180px;
+  gap: 12px;
+  background:
+    radial-gradient(circle at 50% 36%, rgba(201, 163, 106, 0.16), transparent 42%),
+    linear-gradient(180deg, #1a0c10, #080406);
+  font-style: italic;
+  color: var(--ivory-dim);
+}
+
+.photo-placeholder em {
+  font-family: var(--sans);
+  font-style: normal;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  color: var(--gold);
+}
+
+.photo-leak {
+  display: none;
+}
+
+.photo-caption {
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.photo-caption strong {
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 5.6vw, 2.2rem);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.photo-caption span {
+  font-family: var(--sans);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.humor-lines {
+  position: absolute;
+  left: 50%;
+  bottom: calc(150px + var(--safe-bottom));
+  transform: translateX(-50%);
+  width: min(88vw, 420px);
+  z-index: 3;
+  text-align: center;
+}
+
+.humor-lines p + p {
+  margin-top: 10px;
+  opacity: 0.78;
+}
+
+.finale-photo .photo-still {
+  animation: finale-zoom 18s var(--ease) forwards;
+}
+
+.finale-photo .winner-photo {
+  margin-bottom: 56px;
+}
+
+.finale-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(72px + var(--safe-bottom));
+  z-index: 3;
+  text-align: center;
+  padding: 0 16px;
+}
+
+.finale-overlay h2,
+.finale-overlay .winner-name {
+  width: 100%;
+  font-size: clamp(1.5rem, 7vw, 4.4rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 10px;
+  text-wrap: balance;
+}
+
+.finale-overlay.vows p {
+  font-size: clamp(1.4rem, 4vw, 2.1rem);
+  color: var(--ivory);
+}
+
+.thanks-title {
+  font-size: clamp(1.45rem, 6.4vw, 3.4rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  max-width: 14ch;
+  padding: 0 12px;
+}
+
+.final-letter {
+  display: grid;
+  gap: 18px;
+  width: min(92vw, 28ch);
+  max-width: 100%;
+  margin: 0;
+  border: 0;
+  padding: 0 8px;
+}
+
+.birthday-close h2 {
+  font-size: clamp(1.35rem, 6.4vw, 3.4rem);
+  letter-spacing: 0.03em;
+  line-height: 1.18;
+  margin-bottom: 22px;
+  text-wrap: balance;
+  padding: 0 4px;
+}
+
+.birthday-close p {
+  letter-spacing: 0.08em;
+}
+
+.credits-screen {
+  overflow: hidden;
+  align-items: end;
+}
+
+.credits-reel {
+  width: min(88vw, 420px);
+  display: grid;
+  gap: 36px;
+  padding: 0 8px 20vh;
+  animation: credits-rise 30s linear forwards;
+}
+
+.credits-static {
+  animation: none;
+}
+
+.credit-block {
+  display: grid;
+  gap: 10px;
+}
+
+.credit-display {
+  font-size: clamp(1.4rem, 6vw, 2rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.credit-value {
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 4vw, 1.25rem);
+  line-height: 1.6;
+  white-space: pre-line;
+  margin: 0;
+  color: var(--ivory);
+}
+
+.beginning {
+  display: grid;
+  gap: 18px;
+}
+
+@media (min-width: 768px) {
+  .stage-screen {
+    padding: calc(88px + var(--safe-top)) 40px calc(96px + var(--safe-bottom));
+  }
+
+  .eyebrow,
+  .category-index,
+  .year-mark,
+  .winner-card-label,
+  .credit-label,
+  .award-counter,
+  .next-award {
+    font-size: 0.68rem;
+    letter-spacing: 0.28em;
+  }
+
+  .begin-button,
+  .next-award {
+    min-height: 52px;
+    letter-spacing: 0.22em;
+  }
+
+  .winner-card-trophy svg {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+@media (min-width: 900px) {
+  .stage-screen {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  .winner-card {
+    width: 520px;
+    max-height: none;
+    transform: perspective(1100px) rotateX(5deg);
+  }
+
+  .winner-card-inner {
+    padding: 56px 48px 60px;
+    overflow: visible;
+  }
+
+  .theatre-velvet {
+    width: 240px;
+    opacity: 0.82;
+  }
+
+  .photo-screen,
+  .photo-embed {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  .winner-photo {
+    width: min(78vw, 920px);
+  }
+
+  .photo-plate img,
+  .photo-placeholder {
+    max-width: min(78vw, 920px);
+    max-height: min(62vh, 620px);
+  }
+
+  .suspense-line {
+    letter-spacing: 0.24em;
+  }
+}
+
+@media (max-width: 380px) {
+  .category-title {
+    font-size: clamp(1.45rem, 8vw, 2rem);
+    max-width: 14ch;
+  }
+
+  .winner-name,
+  .finale-overlay h2,
+  .finale-overlay .winner-name {
+    font-size: clamp(1.25rem, 7vw, 1.8rem);
+  }
+
+  .birthday-close h2 {
+    font-size: 1.25rem;
+  }
+
+  .begin-button {
+    letter-spacing: 0.12em;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .stage-screen {
+    padding: calc(48px + var(--safe-top)) 20px calc(56px + var(--safe-bottom));
+  }
+
+  .theatre-velvet,
+  .theatre-floor,
+  .award-counter-track {
+    display: none;
+  }
+
+  .winner-card {
+    max-height: calc(100dvh - 72px);
+  }
+
+  .winner-card-inner {
+    padding: 16px 20px;
+  }
+
+  .photo-plate img,
+  .photo-placeholder {
+    max-height: 64vh;
+  }
+
+  .finale-overlay {
+    bottom: calc(20px + var(--safe-bottom));
+  }
+
+  .display-title,
+  .category-title,
+  .winner-name {
+    font-size: clamp(1.3rem, 5vh, 2.4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theatre-rays,
+  .theatre-spot-main,
+  .dust-mote,
+  .credits-reel,
+  .finale-photo .photo-still {
+    animation: none;
+  }
+}
+
+@keyframes ray-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-1.5%);
+  }
+}
+
+@keyframes spot-drift {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-48%) scale(1.04);
+  }
+}
+
+@keyframes dust-float {
+  0% {
+    transform: translate3d(0, 18px, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate3d(8px, -80px, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes credits-rise {
+  from {
+    transform: translateY(70vh);
+  }
+  to {
+    transform: translateY(-20vh);
+  }
+}
+
+@keyframes finale-zoom {
+  from {
+    transform: scale(1.03);
+  }
+  to {
+    transform: scale(1);
+  }
+}

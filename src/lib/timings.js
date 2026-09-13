@@ -1,0 +1,61 @@
+export const TIMINGS = {
+  categoryHold: 2200,
+  description: 3400,
+  dark: 900,
+  awardGoesTo: 2300,
+  winnerIs: 1700,
+  reveal: 2600,
+  card: 4200,
+  humorAfter: 1600,
+  finalIntro: 2600,
+  finalNoNominees: 2800,
+  finalNoCompetition: 3000,
+  finalCategory: 3400,
+  finalWinnerIs: 3000,
+  finalReveal: 3200,
+  finalPhotoHold: 14000,
+  messageThanks: 3000,
+  messageLetter: 10000,
+  messageBirthday: 5600,
+  credits: 32000,
+  theEnd: 3400,
+  beginning: 4200,
+};
+
+export const STANDARD_FLOW = [
+  ["category", "categoryHold"],
+  ["description", "description"],
+  ["dark", "dark"],
+  ["award-goes-to", "awardGoesTo"],
+  ["winner-is", "winnerIs"],
+  ["reveal", "reveal"],
+  ["card", "card"],
+  ["photo", null],
+];
+
+export const HUMOR_FLOW = [
+  ["category", "categoryHold"],
+  ["description", "description"],
+  ["dark", "dark"],
+  ["winner-is", "winnerIs"],
+  ["reveal", "reveal"],
+  ["card", "card"],
+  ["photo", null],
+];
+
+export const FINALE_FLOW = [
+  ["final-intro", "finalIntro"],
+  ["final-no-nominees", "finalNoNominees"],
+  ["final-no-competition", "finalNoCompetition"],
+  ["final-category", "finalCategory"],
+  ["final-winner-is", "finalWinnerIs"],
+  ["final-reveal", "finalReveal"],
+  ["final-photo", "finalPhotoHold"],
+  ["message-thanks", "messageThanks"],
+  ["message-letter", "messageLetter"],
+  ["message-birthday", "messageBirthday"],
+  ["credits", "credits"],
+  ["the-end", "theEnd"],
+  ["beginning", "beginning"],
+  ["blackout", null],
+];
